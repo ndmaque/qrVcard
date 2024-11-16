@@ -1,0 +1,13 @@
+{
+    "firstName": "Afirstname",
+    "middleName": "",
+    "lastName": "Alastname",
+    "organisation": "Example Company PLC",
+    "phone": "+44 07078 123789",
+    "email": "example@email.com",
+    "url": "https://www.instagram.com/Example_Company_PLC",
+    "address": "42 Example Road; Example Town; ZIP 123",
+    "photo": "https://example.com/ProfilePNGfile.png",
+    "wifiSSID": "MY_ROUTER_SSID",
+    "wifiPass": "myRouterPassword"
+}
