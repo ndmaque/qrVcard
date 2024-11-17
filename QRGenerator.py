@@ -32,17 +32,17 @@ class QRGenerator:
             self.contact = json.load(f)
             f.close()
         except:
-            print(f"Invalid json file: {srcFile}")
+            print(f"Error: Invalid json file: {srcFile}")
+
+        self.setDestinationFolder()
         
-    def setDestinationFolder(self, path):
+    def setDestinationFolder(self, path='./qrOutput'):
         # creates a sub-folder inside dstFolder from user_name for all the png and vcf files
         subFolder = self.contact['firstName'] + '_' + self.contact['lastName']
         subFolder = re.sub(r'\W+', '', subFolder.lower().replace(" ", "_"))
         self.dstFolder = f'{path}/{subFolder}'
 
-        if not os.path.exists(self.dstFolder):
-            os.makedirs(self.dstFolder)
-      
+              
     def fileExistsOrDie(self, filePath):
         try:
             f = open(filePath, "r")
@@ -79,11 +79,13 @@ class QRGenerator:
             f.write(content)
             f.close()
         except:
-            print(f'Error saveVcfFile {fileName}')
+            print(f'Error: saveVcfFile {fileName}')
 
     # using segno to create image from vcf format or plain text
     def createPNG(self, type, size, fileName):
-        
+        if not os.path.exists(self.dstFolder):
+            os.makedirs(self.dstFolder)
+
         self.imageSize = (size, size)
 
         if type == 'contact':
@@ -105,13 +107,14 @@ class QRGenerator:
             self.qrSavePng(qr, fileName)
 
         else:
-            print(f"Error createPNG type not found: {type}")
+            print(f"Error: createPNG type not found: {type}")
 
     def qrSavePng(self, qr, fileName):
         fileName = f'{fileName}.png'
         dstFile = f"{self.dstFolder}/{fileName}"
         # if imageSize = 0 remove the scale property and let segno resize
         options = {} if self.imageSize[0] == 0 else {'scale': self.qrScale}
+        print(f'saving: {dstFile}')
 
         qr.save(
             dstFile,
